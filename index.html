@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clock</title>
+  <style>
+    body {
+      background: #fff;
+      background-attachment: fixed;
+      font-family: "微軟正黑體";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #clock {
+      width: 400px;
+      height: 400px;
+      background-color: #999;
+      box-shadow:
+        -7px -7px 20px #fff9,
+        7px 7px 20px #0002,
+        inset 0px 10px 10px #fff9;
+      border: solid 1px rgb(255, 255, 255);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    #hour {
+      position: absolute;
+      width: 20%;
+      height: 6px;
+      background: rgb(25, 25, 26);
+      box-shadow: 0 0 5px rgb(255, 255, 255);
+      top: calc(50% - 3px);
+      left: 30%;
+      border-radius: 5px;
+      transform: rotate(0deg);
+      transform-origin: right center;
+      z-index: 2;
+    }
+
+    #minute {
+      position: absolute;
+      width: 35%;
+      height: 6px;
+      background: rgb(240, 247, 255);
+      box-shadow: 0 0 5px rgb(255, 255, 255);
+      top: calc(50% - 3px);
+      left: 15%;
+      border-radius: 3px;
+      transform: rotate(0deg);
+      transform-origin: right center;
+      z-index: 1;
+    }
+
+    #second {
+      position: absolute;
+      width: 45%;
+      height: 2px;
+      background: rgb(255, 255, 255);
+      box-shadow: 0 0 5px rgb(255, 255, 255);
+      top: calc(50% - 1px);
+      left: 5%;
+      border-radius: 3px;
+      transform: rotate(0deg);
+      transform-origin: right center;
+    }
+
+    #num {
+      width: 160px;
+      height: 30px;
+      line-height: 30px;
+      color: rgb(255, 255, 255);
+      box-shadow: inset 0px 5px 10px rgb(0, 0, 0);
+      margin: 90px auto;
+      border: solid 1px rgb(170, 161, 173);
+      border-radius: 10px;
+      font-family: '微軟正黑體';
+    }
+
+    #num tr td {
+      text-align: center;
+    }
+
+    .dot {
+      top: calc(50% - 3px);
+      left: 45%;
+      transform-origin: right center;
+      width: 5%;
+      height: 4px;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 0 10px rgb(255, 255, 255);
+      position: absolute;
+    }
+
+    .side {
+      background: rgb(223, 223, 223);
+      width: 200px;
+      height: 200px;
+      box-shadow:
+        -7px -7px 20px rgba(255, 255, 255, 0.815),
+        7px 7px 20px #0002,
+        inset 0px 10px 10px #fff9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="side">
+    <span id="month"></span>
+    /
+    <span id="date"></span>
+  </div>
+  <div id="clockOut">
+    <div id="clock">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+
+      <div id="hour"></div>
+      <div id="minute"></div>
+      <div id="second"></div>
+      <table id="num" border=1>
+        <tr>
+          <td id="num1">0</td>
+          <td id="num2">0</td>
+          <td>:</td>
+          <td id="num3">0</td>
+          <td id="num4">0</td>
+          <td>:</td>
+          <td id="num5">0</td>
+          <td id="num6">0</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="side">
+    星期
+    <span id="week"></span>
+  </div>
+
+
+  <script>
+    const hour = document.getElementById("hour");
+    const minute = document.getElementById("minute");
+    const second = document.getElementById("second");
+    const num1 = document.getElementById("num1");
+    const num2 = document.getElementById("num2");
+    const num3 = document.getElementById("num3");
+    const num4 = document.getElementById("num4");
+    const num5 = document.getElementById("num5");
+    const num6 = document.getElementById("num6");
+    const month = document.getElementById("month");
+    const date = document.getElementById("date");
+    const week = document.getElementById("week");
+    const dots = document.getElementsByClassName("dot");
+    const weeklist = ["日", "一", "二", "三", "四", "五", "六"];
+
+    const setDate = () => {
+      const now = new Date();
+      hour.style.transform = `rotate(${now.getHours() * 30 + 90}deg)`;
+      minute.style.transform = `rotate(${now.getMinutes() * 6 + 90}deg)`;
+      second.style.transform = `rotate(${now.getSeconds() * 6 + 90}deg)`;
+    }
+    setDate();
+    setInterval(setDate, 1000);
+
+    const timer = () => {
+      const innernow = new Date();
+      num1.innerText = Math.floor(innernow.getHours() / 10);
+      num2.innerText = innernow.getHours() % 10;
+      num3.innerText = Math.floor(innernow.getMinutes() / 10);
+      num4.innerText = innernow.getMinutes() % 10;
+      num5.innerText = Math.floor(innernow.getSeconds() / 10);
+      num6.innerText = innernow.getSeconds() % 10;
+      month.innerText = innernow.getMonth() + 1;
+      date.innerText = innernow.getDate();
+      week.innerText = weeklist[innernow.getDay()];
+    }
+    timer();
+    setInterval(timer, 1000);
+
+    for (let i = 0; i < 60; i++) {
+      dots[i].style.transform = `rotate(${i * 30}deg) translateX(900%)`
+    }
+
+  </script>
+</body>
+
+</html>
